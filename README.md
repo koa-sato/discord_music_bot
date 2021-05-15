@@ -7,5 +7,5 @@ export OAUTH2_CLIENT_ID="XXXXXXXXXXXXXXXXXX"
 export OAUTH2_CLIENT_SECRET="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 export TOKEN="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 
-#### Then, run config.sh to export the env variables
+#### Then, run config.env to export the env variables
 . config.env
