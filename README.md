@@ -9,3 +9,6 @@ export TOKEN="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
 
 #### Then, run config.env to export the env variables
 . config.env
+
+### Run app with:
+python3 bot.py
