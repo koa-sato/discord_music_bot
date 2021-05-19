@@ -14,3 +14,9 @@ export DEEZER_ARL_COOKIE="XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
 
 ### Run app with:
 python3 bot.py
+
+
+### Starting mysql
+sudo apt-get install mysql-server
+sudo service mysql start
+sudo mysql --defaults-file=/etc/mysql/debian.cnf

@@ -1,5 +1,6 @@
 import discord
 import os
+import threading
 
 from deezer import Deezer
 
@@ -33,6 +34,8 @@ async def addToQueue(message):
     global last_url
     if last_url is "":
         await message.channel.send("No latest url found, try searching for a song first")
+        return 
+    await message.channel.send("Adding the latest searched song to queue...")
     deezer_client.addToQueue(last_url)
     last_url = ""
     return

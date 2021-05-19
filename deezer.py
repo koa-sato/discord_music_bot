@@ -3,6 +3,7 @@ import json
 import os
 import requests
 import threading
+import time
 
 from typing import List
 
@@ -65,16 +66,13 @@ class Deezer():
             'id': urlParts[2]
         }
 
-    def getTrackDownloadUrl(self, trackInfos, trackQuality):
-        pass
-
     def searchForSong(self, song):
         song = song.replace(" ", "%20")
         unofficialApiUrl = 'https://api.deezer.com/search?q=' + song
         requestBody = None
         requestQueries = self.unofficialApiQueries
         requestParams = {
-            'method': 'POST',
+            'method': 'GET',
             'url': unofficialApiUrl,
             'qs': requestQueries,
             'body': requestBody,
@@ -87,41 +85,20 @@ class Deezer():
             content = json.loads(response.content.decode("utf-8"))
             if len(content['data']) == 0:
                 return "No close song found"
-            print(content['data'][0]['preview'])
             return(content['data'][0]['link'])
         else:
             return "response wasn't in json"
-
-    def downloadSong(self, url):
-        self.requestWithoutCache = {
-            "url": url,
-            "headers": self.httpHeaders,
-            "jar": True,
-            "encoding": None
-        }
-
-        # requestParams = {
-        #     'method': 'POST',
-        #     'url': self.unofficialApiUrl,
-        #     'qs': requestQueries,
-        #     'body': requestBody,
-        #     'json': True,
-        #     'jar': True
-        # }
-        request = self.requestWithoutCache
-        response = request.get(url, type='application/json')
-        print(response)
-
-
-    def readQueue(self):
-        while(True):
-            if len(self.queue != 0):
-                song = self.queue[0]
-                del self.queue[0]
-                self.downloadSong(song)
     
     def addToQueue(self, song):
         self.queue.append(song)
+
+    # def readQueue(self):
+    #     while(True):
+    #         if len(self.queue) != 0:
+    #             song = self.queue[0]
+    #             print(song)
+    #             del self.queue[0]
+    #         time.sleep(5)
 
     def startService(self):
         self.initRequest()
@@ -137,9 +114,6 @@ class Deezer():
             'input': 3
         }
         atexit.register(self.exit_handler)
-        # self.queue_thread = threading.Thread(target=self.readQueue, args=None)
-
-
-d = Deezer()
-print(d.searchForSong("Faded Heart"))
-# d.downloadSong("https://www.deezer.com/track/446685592")
+        # queue_thread = threading.Thread(target=self.readQueue, args=[])
+        # queue_thread.run()
+        # queue_thread.join()
