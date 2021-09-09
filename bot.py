@@ -1,8 +1,7 @@
 import discord
 import os
-import threading
 
-from deezer import Deezer
+from deezer_service import Deezer
 
 client = discord.Client()
 deezer_client = Deezer()

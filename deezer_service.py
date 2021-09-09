@@ -2,8 +2,7 @@ import atexit
 import json
 import os
 import requests
-import threading
-import time
+import deezer
 
 from typing import List
 
@@ -20,8 +19,7 @@ class Deezer():
             'cache-control': 'max-age=0',
             'accept-language': 'en-US,en;q=0.9,en-US;q=0.8,en;q=0.7',
             'accept-charset': 'utf-8,ISO-8859-1;q=0.8,*;q=0.7',
-            'content-type': 'text/plain;charset=UTF-8',
-            'cookie': 'arl=' + self.arl
+            'content-type': 'text/plain;charset=UTF-8'
         }
 
         self.requestConfig = {
@@ -51,13 +49,7 @@ class Deezer():
                     self.queue.append(line)
         
     def initDeezerCredentials(self):
-        arl = self.arl
-        if arl:
-            return arl
-        else:
-            arl = self.arl
-            self.initRequest()
-            return arl
+        self.deezer_client = deezer.Client(app_id=os.getenv('DEEZER_APP_ID'), app_secret=os.getenv('DEEZER_SECRET'))
 
     def getDeezerUrlParts(self, deezerUrl):
         urlParts = deezerUrl.split("/")[-3:]
@@ -92,20 +84,11 @@ class Deezer():
     def addToQueue(self, song):
         self.queue.append(song)
 
-    # def readQueue(self):
-    #     while(True):
-    #         if len(self.queue) != 0:
-    #             song = self.queue[0]
-    #             print(song)
-    #             del self.queue[0]
-    #         time.sleep(5)
-
     def startService(self):
         self.initRequest()
         self.initDeezerCredentials()
 
     def __init__(self):
-        self.arl = os.getenv('DEEZER_ARL_COOKIE')
         self.queue = []
         self.startService()
         self.unofficialApiQueries = {
@@ -114,6 +97,3 @@ class Deezer():
             'input': 3
         }
         atexit.register(self.exit_handler)
-        # queue_thread = threading.Thread(target=self.readQueue, args=[])
-        # queue_thread.run()
-        # queue_thread.join()
